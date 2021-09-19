@@ -104,9 +104,6 @@ function loseBlack(col) {
         gameOver(0)
       }
       clearInterval(timeId2)
-
-    } else { //没有触底
-
     }
   }, 20)
 }
