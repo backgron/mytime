@@ -76,7 +76,7 @@ function createGame() {
     if (height > 0) {
       gameOver(1)
     }
-  }, 40)
+  }, 20)
 }
 
 
