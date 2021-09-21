@@ -72,11 +72,11 @@ function createGame() {
   height = -document.body.scrollHeight - document.body.offsetHeight
   main.style.transform = "translateY(" + (height).toString() + "px)"
   timeId = setInterval(function () {
-    main.style.transform = "translateY(" + (height += 10) + "px)";
+    main.style.transform = "translateY(" + (height += 5) + "px)";
     if (height > 0) {
       gameOver(1)
     }
-  }, 20)
+  }, 10)
 }
 
 
