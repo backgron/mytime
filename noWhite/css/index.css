@@ -30,12 +30,40 @@ li {
   animation: timeGo 1s infinite;
 }
 
-#begin_btn {
-  width: 60%;
+#config {
+  width: 65%;
+}
+
+#begin_btn,
+#speed {
+  width: 100%;
   height: 40px;
+  border: 0px;
   border-radius: 10px;
   box-shadow: 0 0 10 #333;
   background-color: #000;
+  color: #ccc;
+  text-align: center;
+  margin: 10px 0;
+}
+
+::-webkit-input-placeholder {
+  /* WebKit browsers */
+  color: #ccc;
+}
+
+:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  color: #ccc;
+}
+
+::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  color: #ccc;
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10+ */
   color: #ccc;
 }
 

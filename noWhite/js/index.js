@@ -1,9 +1,21 @@
 let begin = document.querySelector('#begin')
 let begin_btn = document.querySelector('#begin_btn')
+let begin_speed = document.querySelector('#speed')
 let begin_span = begin.querySelector('span')
+let config = document.querySelector('#config')
 let score = 0
 let height = 0
-let speed = 3
+let speed = 5
+
+begin_speed.onchange = function () {
+  console.log(begin_speed.value);
+  if (begin_btn === '') {
+    speed = 5
+  } else {
+    speed = parseInt(begin_speed.value)
+  }
+}
+
 // 添加点击开始初始事件
 function beginBtn() {
   //开始点击事件
@@ -12,7 +24,7 @@ function beginBtn() {
     let main = document.createElement('div')
     main.className = 'main'
     document.body.appendChild(main)
-    begin_btn.style.display = 'none'
+    config.style.display = 'none'
     begin_span.style.display = 'block'
     begin_span.innerHTML = time--
     //倒数开始
@@ -116,11 +128,11 @@ function loseBlack(col) {
 function gameOver(flag) {
   document.body.removeChild(document.querySelector('.main'))
   begin.style.display = 'flex'
-  begin_btn.style.display = ''
+  config.style.display = ''
   if (flag === 0) {
-    begin_btn.innerHTML = '游戏失败,得分为:' + score + '（点击重新开始)'
+    begin_btn.innerHTML = '游戏失败，得分为:' + score * speed + '（点击重新开始)'
   } else {
-    begin_btn.innerHTML = '成功通过得分为:' + score + '（点击重新开始)'
+    begin_btn.innerHTML = '成功通过得分为:' + score * speed + '（点击重新开始)'
   }
   score = 0
   window.cancelAnimationFrame(animationId)
