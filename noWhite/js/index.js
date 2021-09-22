@@ -3,7 +3,7 @@ let begin_btn = document.querySelector('#begin_btn')
 let begin_span = begin.querySelector('span')
 let score = 0
 let height = 0
-let speed = 5
+let speed = 3
 // 添加点击开始初始事件
 function beginBtn() {
   //开始点击事件
