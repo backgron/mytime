@@ -32,8 +32,8 @@ function beginBtn() {
 }
 beginBtn()
 
-let timeId
 let black
+let animationId
 // 创建游戏地图
 function createGame() {
   let main = document.querySelector('.main')
@@ -71,12 +71,16 @@ function createGame() {
 
   height = -document.body.scrollHeight - document.body.offsetHeight
   main.style.transform = "translateY(" + (height).toString() + "px)"
-  timeId = setInterval(function () {
-    main.style.transform = "translateY(" + (height += 5) + "px)";
+
+  function move() {
+    console.log('move');
+    main.style.transform = "translateY(" + (height += 10) + "px)";
     if (height > 0) {
       gameOver(1)
     }
-  }, 10)
+    animationId = window.requestAnimationFrame(move)
+  }
+  move()
 }
 
 
@@ -118,5 +122,5 @@ function gameOver(flag) {
     begin_btn.innerHTML = '成功通过得分为:' + score + '（点击重新开始)'
   }
   score = 0
-  clearInterval(timeId)
+  window.cancelAnimationFrame(animationId)
 }
