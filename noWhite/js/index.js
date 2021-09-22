@@ -3,6 +3,7 @@ let begin_btn = document.querySelector('#begin_btn')
 let begin_span = begin.querySelector('span')
 let score = 0
 let height = 0
+let speed = 5
 // 添加点击开始初始事件
 function beginBtn() {
   //开始点击事件
@@ -74,7 +75,7 @@ function createGame() {
 
   function move() {
     console.log('move');
-    main.style.transform = "translateY(" + (height += 10) + "px)";
+    main.style.transform = "translateY(" + (height += speed) + "px)";
     if (height > 0) {
       gameOver(1)
     }
