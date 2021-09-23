@@ -41,7 +41,7 @@ class Snake {
     this.head = new Rect(x, y, block, 'red')
   }
   addBody() {
-    this.head.color = 'green'
+    this.head.color = '#12b7f5'
     this.body.unshift(this.head)
   }
   removeBody() {
@@ -84,7 +84,7 @@ class Food {
   createFood() {
     let x = Util.getRadom(canvas.width - 40) * block
     let y = Util.getRadom(canvas.height - 40) * block
-    this.food = new Rect(x, y, block, 'blue')
+    this.food = new Rect(x, y, block, '#cbcb5a')
   }
   fDraw() {
     this.food.rDraw()
