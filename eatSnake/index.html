@@ -8,18 +8,9 @@
   <title>Document</title>
   <link rel="stylesheet" href="css/index.min.css">
   <style>
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #ccc;
-    }
-
     canvas {
       display: block;
-      box-shadow: 0 0 10px #343434;
+      box-shadow: 0 0 10px #fff;
       margin: 20px auto;
     }
   </style>
@@ -29,6 +20,12 @@
   <canvas id='canvas' width="400" height="300">
     浏览器不行了，兄弟。换个吧
   </canvas>
+  <div id='op'>
+    <button id='left'>←</button>
+    <button id='up'>↑</button>
+    <button id='right'>→</button>
+    <button id='down'>↓</button>
+  </div>
   <script src="./js/index.js"></script>
 </body>
 
