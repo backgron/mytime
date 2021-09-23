@@ -125,7 +125,7 @@ class Util {
     }
   }
   //PC 端
-  static eventListenerPC(snake) {
+  static eventListenerPC() {
     let left = document.querySelector('#left')
     let up = document.querySelector('#up')
     let right = document.querySelector('#right')
@@ -203,7 +203,7 @@ let block = 20
 let ctx = null
 let snake = null
 let food = null
-let timeId
+let timeId = null
 let keyFlag = true
 let score = 0
 let canvas = null
@@ -212,12 +212,13 @@ let maxheight = 0
 let head = null
 
 function init() {
+
   //初始化 
   block = 20
   ctx = null
   snake = null
   food = null
-  timeId
+  timeId = null
   keyFlag = true
   score = 0
   canvas = null
@@ -250,10 +251,11 @@ function init() {
 
   //监听事件
   Util.eventListenerPE(snake)
-  Util.eventListenerPC(snake)
+  Util.eventListenerPC()
 
   //动画
   timeId = Util.animation(snake)
+
 }
 
 init()
