@@ -23,13 +23,13 @@ class MeCanvas {
     ctx.drawImage(this.images[this.img], this.x, this.y, 102, 126)
   }
 
+  // 键盘移动
   moveByKey() {
     window.onkeydown = (e) => {
       let key = e.keyCode
       switch (key) {
         case 37:
           this.left = true
-          console.log(this.left);
           break
         case 38:
           this.up = true
@@ -63,7 +63,7 @@ class MeCanvas {
 
 
   }
-
+  //鼠标移动
   moveByClick() {
     window.onmousedown = (e) => {
       let offsetX = e.clientX - this.x
@@ -76,11 +76,10 @@ class MeCanvas {
       }
       window.onmouseup = (e) => {
         window.onmousemove = function () {}
-        console.log(window.onmousemove);
       }
     }
   }
-
+  //触摸移动
   moveByTouch() {
     window.ontouchstart = (e) => {
       let x = e.targetTouches[0].clientX
@@ -95,11 +94,8 @@ class MeCanvas {
           this.y = y - offsetY
         }
       }
-
       window.ontouchend = (e) => {
-        console.log('mouseup');
         window.ontouchmove = function () {}
-        console.log(window.onmousemove);
       }
     }
   }

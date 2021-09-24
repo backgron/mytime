@@ -53,9 +53,10 @@ function createMe() {
   let height = meCanvas.height
   let image1 = new Image(width, height)
   image1.src = 'images/me1.png'
-  let image2 = new Image(width, height)
-  image2.src = 'images/me2.png'
+
   image1.onload = function () {
+    let image2 = new Image(width, height)
+    image2.src = 'images/me2.png'
     image2.onload = function () {
       me = new MeCanvas(MAX_HEIGHT / 2 - width / 2, height - 126 - 20, width, height, [image1, image2], 3)
       timeId.push(setInterval(function () {
