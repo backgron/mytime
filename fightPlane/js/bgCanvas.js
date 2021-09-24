@@ -9,13 +9,13 @@ class BackgroundCanvas {
   }
 
   draw(ctx) {
-    this.image.onload = () => {
-      console.log(bgCanvas.width, bgCanvas.height);
-      ctx.drawImage(this.image, 0, 0, bgCanvas.width, bgCanvas.height, 0, 0, bgCanvas.width, bgCanvas.height)
-      console.log('ok');
-    }
+    ctx.drawImage(this.image, 0, 0, this.width, this.height)
+    ctx.drawImage(this.image, 0, -this.height, this.width, this.height)
   }
-  move() {
-
+  move(ctx) {
+    ctx.translate(0, this.y += this.speed)
+    if (this.y >= bgCanvas.height) {
+      this.y = 0
+    }
   }
 }

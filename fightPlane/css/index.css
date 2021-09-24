@@ -4,11 +4,17 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden;
 }
 
 #bgcanvas {
   margin: 0;
   padding: 0;
-  border: 1px solid red;
+}
+
+#mecanvas {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
