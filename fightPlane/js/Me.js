@@ -99,4 +99,9 @@ class MeCanvas {
       }
     }
   }
+
+  //发射子弹
+  shoot() {
+
+  }
 }

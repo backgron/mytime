@@ -1,5 +1,6 @@
 let bgCanvas = document.querySelector('#bgcanvas')
 let meCanvas = document.querySelector('#mecanvas')
+let blCanvas = document.querySelector('#blcanvas')
 const WIDTH = 480
 const HEIGHT = 700
 const MAX_WIDTH = window.innerWidth
@@ -84,10 +85,43 @@ function createMe() {
           me.y = height - 126
         }
       }, 5))
+      //创建子弹
+      createBullet(me)
     }
   }
 
 
+}
+
+function createBullet(me) {
+  blCanvas.width = MAX_WIDTH
+  blCanvas.height = MAX_HEIGHT
+  let ctx = null
+  if (blCanvas.getContext) {
+    ctx = blCanvas.getContext('2d')
+  }
+  let image = new Image()
+  image.src = 'images/bullet2.png'
+  image.onload = function () {
+
+
+    let blArr = []
+    timeId.push(setInterval(function () {
+      blArr.push(new BulletCanvas(me.x + 50, me.y - 11, image))
+    }, 100))
+
+    timeId.push(setInterval(function () {
+      ctx.clearRect(0, 0, MAX_WIDTH, MAX_HEIGHT)
+      for (let i = 0; i < blArr.length; i++) {
+        if (blArr[i].y < 0) {
+          blArr.shift()
+        }
+        blArr[i].move(ctx)
+        blArr[i].draw(ctx)
+      }
+    }, 20))
+
+  }
 }
 
 gameInit()
