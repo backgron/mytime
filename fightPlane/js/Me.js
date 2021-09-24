@@ -66,10 +66,12 @@ class MeCanvas {
 
   moveByClick() {
     window.onmousedown = (e) => {
-      if (e.clientX >= this.x + 50 && e.clientX <= this.x + 102 && e.clientY <= this.y + 126 && e.clientY >= this.y + 60) {
+      let offsetX = e.clientX - this.x
+      let offsetY = e.clientY - this.y
+      if (e.clientX >= this.x && e.clientX <= this.x + 102 && e.clientY <= this.y + 126 && e.clientY >= this.y) {
         window.onmousemove = (e) => {
-          this.x = e.clientX - 50
-          this.y = e.clientY - 60
+          this.x = e.clientX - offsetX
+          this.y = e.clientY - offsetY
         }
       }
       window.onmouseup = (e) => {
@@ -83,12 +85,14 @@ class MeCanvas {
     window.ontouchstart = (e) => {
       let x = e.targetTouches[0].clientX
       let y = e.targetTouches[0].clientY
-      if (x >= this.x + 50 && x <= this.x + 102 && y <= this.y + 126 && y >= this.y + 60) {
+      let offsetX = x - this.x
+      let offsetY = y - this.y
+      if (x >= this.x && x <= this.x + 102 && y <= this.y + 126 && y >= this.y) {
         window.ontouchmove = (e) => {
           let x = e.targetTouches[0].clientX
           let y = e.targetTouches[0].clientY
-          this.x = x - 50
-          this.y = y - 60
+          this.x = x - offsetX
+          this.y = y - offsetY
         }
       }
 
