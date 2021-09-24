@@ -51,23 +51,42 @@ function createMe() {
   }
   let width = meCanvas.width
   let height = meCanvas.height
-  let image = new Image(width, height)
-  let s = 1
-  setInterval(function () {
-    if (s === 1) {
-      s = 2
-    } else {
-      s = 1
+  let image1 = new Image(width, height)
+  image1.src = 'images/me1.png'
+  let image2 = new Image(width, height)
+  image2.src = 'images/me2.png'
+  image1.onload = function () {
+    image2.onload = function () {
+      me = new MeCanvas(MAX_HEIGHT / 2 - width / 2, height - 126 - 20, width, height, [image1, image2], 3)
+      timeId.push(setInterval(function () {
+        me.draw(ctx)
+      }, 7))
+      me.moveByKey()
+      me.moveByClick()
+      me.moveByTouch()
+      timeId.push(setInterval(() => {
+
+        if (me.left) me.x -= 3
+        if (me.right) me.x += 3
+        if (me.up) me.y -= 3
+        if (me.down) me.y += 3
+        if (me.x <= 0) {
+          me.x = 0
+        }
+        if (me.x >= width - 102) {
+          me.x = width - 102
+        }
+        if (me.y <= 0) {
+          me.y = 0
+        }
+        if (me.y >= height - 126) {
+          me.y = height - 126
+        }
+      }, 5))
     }
-    image.src = 'images/me' + s + '.png'
-  }, 7)
-  image.onload = function () {
-    let me = new MeCanvas(0, 0, width, height, image, 3)
-    me.draw(ctx)
-
-
-
   }
+
+
 }
 
 gameInit()
