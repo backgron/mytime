@@ -72,6 +72,13 @@ class Snake {
     } else {
       food = new Food()
       food.createFood()
+      //  防止食物刷身体里  但是会卡屏一下
+      // for (let i = 0; i < snake.body.length; i++) {
+      //   if (isRectHit(food.food, snake.body[i])) {
+      //     food.createFood()
+      //     break
+      //   }
+      // }
       score++
     }
   }
@@ -85,13 +92,6 @@ class Food {
     let x = Util.getRadom(canvas.width - 40) * block
     let y = Util.getRadom(canvas.height - 40) * block
     this.food = new Rect(x, y, block, '#cbcb5a')
-    for (let i = 0; i < snake.body.length; i++) {
-      if (isRectHit(this.food, snake.body[i])) {
-        this.createFood()
-        break
-      }
-    }
-
   }
   fDraw() {
     this.food.rDraw()
