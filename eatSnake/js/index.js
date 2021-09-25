@@ -72,13 +72,6 @@ class Snake {
     } else {
       food = new Food()
       food.createFood()
-      //  防止食物刷身体里  但是会卡屏一下
-      // for (let i = 0; i < snake.body.length; i++) {
-      //   if (isRectHit(food.food, snake.body[i])) {
-      //     food.createFood()
-      //     break
-      //   }
-      // }
       score++
     }
   }
@@ -92,6 +85,13 @@ class Food {
     let x = Util.getRadom(canvas.width - 40) * block
     let y = Util.getRadom(canvas.height - 40) * block
     this.food = new Rect(x, y, block, '#cbcb5a')
+    //防止食物刷新到身体里
+    for (let i = 0; i < snake.body.length; i++) {
+      if (this.x === snake.body[i].x && this.y === snake.body[i].y) {
+        food.createFood()
+        break
+      }
+    }
   }
   fDraw() {
     this.food.rDraw()
@@ -235,8 +235,8 @@ function init() {
 
   //赋值
   canvas = document.querySelector('#canvas') // 获取canvas画布
-  maxWidth = window.innerWidth - 40 // 最大宽度
-  maxheight = window.innerHeight - 240 //最大高度
+  maxWidth = parseInt((window.innerWidth - 40) / 40) * 40 // 最大宽度
+  maxheight = parseInt((window.innerHeight - 240) / 40) * 40 //最大高度
   //设置画布画笔
   canvas.width = maxWidth
   canvas.height = maxheight

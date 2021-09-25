@@ -72,17 +72,17 @@ class MeCanvas {
         window.onmousemove = (e) => {
           let moveX = e.clientX - offsetX
           let moveY = e.clientY - offsetY
-          if (moveX <= 0) {
+          if (moveX < 0) {
             moveX = 0
           }
-          if (moveX >= width - 102) {
-            moveX = width - 102
+          if (moveX > MAX_WIDTH - 102) {
+            moveX = MAX_WIDTH - 102
           }
-          if (moveY <= 0) {
+          if (moveY < 0) {
             moveY = 0
           }
-          if (moveY >= height - 126) {
-            moveY = height - 126
+          if (moveY > MAX_HEIGHT - 126) {
+            moveY = MAX_HEIGHT - 126
           }
           this.x = moveX
           this.y = moveY

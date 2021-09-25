@@ -144,10 +144,12 @@ function createBullet(me) {
           blArr[i].draw(ctx)
         }
         for (let j = 0; j < enemys.length; j++) {
-          if (rectIsHit(enemys[j], blArr[i])) {
-            enemys.splice(j, 1)
-            blArr.splice(i, 1)
-            score++
+          if (enemys[j] && blArr[i]) {
+            if (rectIsHit(enemys[j], blArr[i])) {
+              enemys.splice(j, 1)
+              blArr.splice(i, 1)
+              score++
+            }
           }
         }
       }
