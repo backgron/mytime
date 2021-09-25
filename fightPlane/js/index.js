@@ -116,8 +116,11 @@ function createBullet(me) {
         if (blArr[i].y < 0) {
           blArr.shift()
         }
-        blArr[i].move(ctx)
-        blArr[i].draw(ctx)
+        if (blArr[i]) {
+          blArr[i].move(ctx)
+          blArr[i].draw(ctx)
+        }
+
       }
     }, 20))
 

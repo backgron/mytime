@@ -70,8 +70,22 @@ class MeCanvas {
       let offsetY = e.clientY - this.y
       if (e.clientX >= this.x && e.clientX <= this.x + 102 && e.clientY <= this.y + 126 && e.clientY >= this.y) {
         window.onmousemove = (e) => {
-          this.x = e.clientX - offsetX
-          this.y = e.clientY - offsetY
+          let moveX = e.clientX - offsetX
+          let moveY = e.clientY - offsetY
+          if (moveX <= 0) {
+            moveX = 0
+          }
+          if (moveX >= width - 102) {
+            moveX = width - 102
+          }
+          if (moveY <= 0) {
+            moveY = 0
+          }
+          if (moveY >= height - 126) {
+            moveY = height - 126
+          }
+          this.x = moveX
+          this.y = moveY
         }
       }
       window.onmouseup = (e) => {
@@ -88,10 +102,22 @@ class MeCanvas {
       let offsetY = y - this.y
       if (x >= this.x && x <= this.x + 102 && y <= this.y + 126 && y >= this.y) {
         window.ontouchmove = (e) => {
-          let x = e.targetTouches[0].clientX
-          let y = e.targetTouches[0].clientY
-          this.x = x - offsetX
-          this.y = y - offsetY
+          let moveX = e.targetTouches[0].clientX - offsetX
+          let moveY = e.targetTouches[0].clientY - offsetY
+          if (moveX <= 0) {
+            moveX = 0
+          }
+          if (moveX >= this.width - 102) {
+            moveX = this.width - 102
+          }
+          if (moveY <= 0) {
+            moveY = 0
+          }
+          if (moveY >= this.height - 126) {
+            moveY = this.height - 126
+          }
+          this.x = moveX
+          this.y = moveY
         }
       }
       window.ontouchend = (e) => {
