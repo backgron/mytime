@@ -19,7 +19,7 @@ class MeCanvas {
     } else {
       this.img = 1
     }
-    ctx.clearRect(0, 0, this.width, this.height)
+    ctx.clearRect(0, 0, MAX_WIDTH, MAX_HEIGHT)
     ctx.drawImage(this.images[this.img], this.x, this.y, 102, 126)
   }
 
@@ -107,14 +107,14 @@ class MeCanvas {
           if (moveX <= 0) {
             moveX = 0
           }
-          if (moveX >= this.width - 102) {
-            moveX = this.width - 102
+          if (moveX >= MAX_WIDTH - 102) {
+            moveX = MAX_WIDTH - 102
           }
           if (moveY <= 0) {
             moveY = 0
           }
-          if (moveY >= this.height - 126) {
-            moveY = this.height - 126
+          if (moveY >= MAX_HEIGHT - 126) {
+            moveY = MAX_HEIGHT - 126
           }
           this.x = moveX
           this.y = moveY
@@ -124,10 +124,5 @@ class MeCanvas {
         window.ontouchmove = function () {}
       }
     }
-  }
-
-  //发射子弹
-  shoot() {
-
   }
 }

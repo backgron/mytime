@@ -1,6 +1,7 @@
 let bgCanvas = document.querySelector('#bgcanvas')
 let meCanvas = document.querySelector('#mecanvas')
 let blCanvas = document.querySelector('#blcanvas')
+let enCanvas = document.querySelector('#encanvas')
 const WIDTH = 480
 const HEIGHT = 700
 const MAX_WIDTH = window.innerWidth
@@ -8,10 +9,33 @@ const MAX_HEIGHT = window.innerHeight
 
 
 let timeId = []
+let raf = []
+let enemys = []
+let blArr = []
+let me = null
+let score = 0
+
 
 function gameInit() {
+
+  timeId = []
+  raf = []
+  enemys = []
+  blArr = []
+  me = null
+  score = 0
+
+
+  //startGame
+  document.querySelector('#gamestart').onclick = function () {
+    console.log('click');
+    document.querySelector('#start').style.display = 'none'
+    gameInit()
+  }
+
   createBackground()
   createMe()
+  createEnemy()
 }
 
 //背景图片
@@ -59,7 +83,7 @@ function createMe() {
     let image2 = new Image(width, height)
     image2.src = 'images/me2.png'
     image2.onload = function () {
-      me = new MeCanvas(MAX_HEIGHT / 2 - width / 2, height - 126 - 20, width, height, [image1, image2], 3)
+      me = new MeCanvas(MAX_HEIGHT / 2 - width / 2, height - 126 - 20, 102, 126, [image1, image2], 3)
       timeId.push(setInterval(function () {
         me.draw(ctx)
       }, 7))
@@ -92,7 +116,7 @@ function createMe() {
 
 
 }
-
+//创建子弹
 function createBullet(me) {
   blCanvas.width = MAX_WIDTH
   blCanvas.height = MAX_HEIGHT
@@ -105,7 +129,6 @@ function createBullet(me) {
   image.onload = function () {
 
 
-    let blArr = []
     timeId.push(setInterval(function () {
       blArr.push(new BulletCanvas(me.x + 50, me.y - 11, image))
     }, 100))
@@ -114,17 +137,120 @@ function createBullet(me) {
       ctx.clearRect(0, 0, MAX_WIDTH, MAX_HEIGHT)
       for (let i = 0; i < blArr.length; i++) {
         if (blArr[i].y < 0) {
-          blArr.shift()
+          blArr.splice(i, 1)
         }
         if (blArr[i]) {
           blArr[i].move(ctx)
           blArr[i].draw(ctx)
         }
-
+        for (let j = 0; j < enemys.length; j++) {
+          if (rectIsHit(enemys[j], blArr[i])) {
+            enemys.splice(j, 1)
+            blArr.splice(i, 1)
+            score++
+          }
+        }
       }
     }, 20))
 
   }
 }
 
+//创建敌机
+function createEnemy() {
+  enCanvas.width = MAX_WIDTH
+  enCanvas.height = MAX_HEIGHT
+  let ctx = null
+  if (enCanvas.getContext) {
+    ctx = enCanvas.getContext('2d')
+  }
+  let image1 = new Image()
+  image1.src = 'images/enemy1.png'
+
+  image1.onload = function () {
+    let image2 = new Image()
+    image2.src = 'images/enemy2.png'
+
+    image2.onload = function () {
+      let image3 = new Image()
+      image3.src = 'images/enemy3.png'
+
+      image3.onload = function () {
+        //添加敌机的定时器
+        timeId.push(setInterval(function () {
+          let type = Math.floor(Math.random() * 10)
+          let x = Math.floor(Math.random() * MAX_WIDTH)
+          switch (type) {
+            case 0:
+              enemys.push(new Enemy(x, -260, 169, 258, image3, 1));
+              break;
+            case 1:
+            case 2:
+            case 3:
+              enemys.push(new Enemy(x, -100, 69, 99, image2, 3));
+              break;
+            default:
+              enemys.push(new Enemy(x, -50, 57, 43, image1, 5))
+          }
+        }, 100))
+        //画敌机的定时器
+        timeId.push(setInterval(function () {
+          ctx.clearRect(0, 0, MAX_WIDTH, MAX_HEIGHT)
+          for (let i = 0; i < enemys.length; i++) {
+            if (enemys[i]) {
+              enemys[i].draw(ctx)
+            }
+          }
+        }, 20))
+        //移动敌机的定时器
+        let ref = null
+
+        function toMove() {
+          for (let i = 0; i < enemys.length; i++) {
+            if (enemys[i]) {
+              enemys[i].move()
+            }
+            if (enemys[i].y > MAX_HEIGHT) {
+              enemys.splice(i, 1)
+            }
+            if (rectIsHit(enemys[i], me)) {
+              for (let j = 0; j < timeId.length; j++) {
+                clearInterval(timeId[j])
+              }
+              gameEnd()
+              return false
+
+            }
+          }
+          if (ref) {
+            window.cancelAnimationFrame(ref)
+          }
+
+          ref = window.requestAnimationFrame(toMove)
+        }
+        toMove()
+      }
+    }
+  }
+}
+
+//碰撞检测
+function rectIsHit(obj1, obj2) {
+  let minX = Math.max(obj1.x, obj2.x)
+  let minY = Math.max(obj1.y, obj2.y)
+  let maxX = Math.min(obj1.x + obj1.width, obj2.x + obj2.width)
+  let maxY = Math.min(obj1.y + obj1.height, obj2.y + obj2.height)
+
+  if (minX < maxX && minY < maxY) {
+    return true
+  } else {
+    return false
+  }
+}
+
 gameInit()
+
+function gameEnd() {
+  document.querySelector('#gamestart').innerHTML = `得分为：${score},点击重新开始`
+  document.querySelector('#start').style.display = 'block'
+}
