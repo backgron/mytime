@@ -85,6 +85,13 @@ class Food {
     let x = Util.getRadom(canvas.width - 40) * block
     let y = Util.getRadom(canvas.height - 40) * block
     this.food = new Rect(x, y, block, '#cbcb5a')
+    for (let i = 0; i < snake.body.length; i++) {
+      if (isRectHit(this.food, snake.body[i])) {
+        this.createFood()
+        break
+      }
+    }
+
   }
   fDraw() {
     this.food.rDraw()
@@ -98,7 +105,7 @@ class Util {
 
     let minY = Math.max(rect1.y, rect2.y)
     let maxY = Math.min(rect1.y + rect1.border, rect2.y + rect2.border)
-    if (minX <= maxX && minY < maxY) {
+    if (minX < maxX && minY < maxY) {
       return true
     }
     return false
