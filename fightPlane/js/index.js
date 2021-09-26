@@ -194,7 +194,7 @@ function createEnemy() {
             default:
               enemys.push(new Enemy(x, -50, 57, 43, image1, 5))
           }
-        }, 100))
+        }, 200))
         //画敌机的定时器
         timeId.push(setInterval(function () {
           ctx.clearRect(0, 0, MAX_WIDTH, MAX_HEIGHT)

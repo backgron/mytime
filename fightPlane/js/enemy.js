@@ -9,8 +9,8 @@ class Enemy {
   }
 
   draw(ctx) {
-    if (this.x > MAX_WIDTH - this.x) {
-      this.x = MAX_WIDTH - this.x
+    if (this.x > MAX_WIDTH - this.width) {
+      this.x = MAX_WIDTH - this.width
     }
     ctx.drawImage(this.image, this.x, this.y)
   }
