@@ -1,0 +1,47 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  background-color: #ccc;
+}
+
+div {
+  box-sizing: border-box;
+}
+
+#app {
+  height: 100%;
+  width: 100%;
+  max-width: 150px;
+  max-height: 300px;
+  background-color: #ccc;
+  border: 1px solid #000;
+  display: flex;
+  flex-direction: column;
+  margin: 20px auto;
+}
+
+.row {
+  height: 10%;
+  width: 100%;
+  background-color: pink;
+  display: flex;
+  flex-direction: row;
+}
+
+.row div {
+  height: 100%;
+  width: 10%;
+  border: 1px solid #ccc;
+}
+
+.item1 {
+  background-color: #fff;
+}
+
+.item2 {
+  background-color: #000;
+}
