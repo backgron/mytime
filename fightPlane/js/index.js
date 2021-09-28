@@ -18,42 +18,6 @@ let score = 0
 
 function gameInit() {
 
-  imageSrc = [
-    'images/background.png',
-
-    'images/enemy1.png',
-    'images/enemy1_down1.png',
-    'images/enemy1_down2.png',
-    'images/enemy1_down3.png',
-    'images/enemy1_down4.png',
-
-    'images/enemy2.png',
-    'images/enemy2_down1.png',
-    'images/enemy2_down2.png',
-    'images/enemy2_down3.png',
-    'images/enemy2_down4.png',
-
-    'images/enemy3.png',
-    'images/enemy3_down1.png',
-    'images/enemy3_down3.png',
-    'images/enemy3_down5.png',
-    'images/enemy3_down6.png',
-  ]
-
-  function preload(src, index) {
-    index = index || 0;
-    if (index >= 10) {
-      return false;
-    }
-    if (src && src.length > index) {
-      let img = new Image();
-      img.onload = function () {
-        preload(src, index + 1);
-      }
-      img.src = src[index];
-    }
-  }
-  preload(imageSrc);
 
   timeId = []
   raf = []
