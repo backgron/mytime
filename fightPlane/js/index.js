@@ -18,6 +18,43 @@ let score = 0
 
 function gameInit() {
 
+  imageSrc = [
+    'images/background.png',
+
+    'images/enemy1.png',
+    'images/enemy1_down1.png',
+    'images/enemy1_down2.png',
+    'images/enemy1_down3.png',
+    'images/enemy1_down4.png',
+
+    'images/enemy2.png',
+    'images/enemy2_down1.png',
+    'images/enemy2_down2.png',
+    'images/enemy2_down3.png',
+    'images/enemy2_down4.png',
+
+    'images/enemy3.png',
+    'images/enemy3_down1.png',
+    'images/enemy3_down3.png',
+    'images/enemy3_down5.png',
+    'images/enemy3_down6.png',
+  ]
+
+  function preload(src, index) {
+    index = index || 0;
+    if (index >= 10) {
+      return false;
+    }
+    if (src && src.length > index) {
+      let img = new Image();
+      img.onload = function () {
+        preload(src, index + 1);
+      }
+      img.src = src[index];
+    }
+  }
+  preload(imageSrc);
+
   timeId = []
   raf = []
   enemys = []
@@ -46,25 +83,27 @@ function createBackground() {
   if (bgCanvas.getContext) {
     ctx = bgCanvas.getContext('2d')
   }
-  let image = new Image(MAX_WIDTH, MAX_HEIGHT)
-  image.src = 'images/background.png'
+  console.log(ctx);
+  let image = getImage('images/background.png')
+  // let image = new Image(MAX_WIDTH, MAX_HEIGHT)
+  // image.src = 'images/background.png'
 
-  image.onload = function () {
-    let bg = new BackgroundCanvas(0, 0, MAX_WIDTH, MAX_HEIGHT, image, 3)
-    // bg.draw(ctx)
+  // image.onload = function () {
+  let bg = new BackgroundCanvas(0, 0, MAX_WIDTH, MAX_HEIGHT, image, 3, ctx)
+  bg.draw()
 
-    let bgAnimation = () => {
-      ctx.clearRect(0, 0, MAX_WIDTH, MAX_HEIGHT)
-      ctx.save()
-      bg.move(ctx)
-      bg.draw(ctx)
-      ctx.restore()
-    }
-    timeId.push(setInterval(bgAnimation, 20))
-    bgAnimation()
+  let bgAnimation = () => {
+    ctx.clearRect(0, 0, MAX_WIDTH, MAX_HEIGHT)
+    ctx.save()
+    bg.move()
+    bg.draw()
+    ctx.restore()
   }
-
+  timeId.push(setInterval(bgAnimation, 20))
+  bgAnimation()
 }
+
+//}
 
 //主角飞机
 function createMe() {
@@ -146,7 +185,11 @@ function createBullet(me) {
         for (let j = 0; j < enemys.length; j++) {
           if (enemys[j] && blArr[i]) {
             if (rectIsHit(enemys[j], blArr[i])) {
-              enemys.splice(j, 1)
+              if (enemys[j].hp === 0) {
+                enemys[j].die(enemys, j)
+              } else {
+                enemys[j].hp--
+              }
               blArr.splice(i, 1)
               score++
             }
@@ -166,74 +209,59 @@ function createEnemy() {
   if (enCanvas.getContext) {
     ctx = enCanvas.getContext('2d')
   }
-  let image1 = new Image()
-  image1.src = 'images/enemy1.png'
-
-  image1.onload = function () {
-    let image2 = new Image()
-    image2.src = 'images/enemy2.png'
-
-    image2.onload = function () {
-      let image3 = new Image()
-      image3.src = 'images/enemy3.png'
-
-      image3.onload = function () {
-        //添加敌机的定时器
-        timeId.push(setInterval(function () {
-          let type = Math.floor(Math.random() * 10)
-          let x = Math.floor(Math.random() * MAX_WIDTH)
-          switch (type) {
-            case 0:
-              enemys.push(new Enemy(x, -260, 169, 258, image3, 1));
-              break;
-            case 1:
-            case 2:
-            case 3:
-              enemys.push(new Enemy(x, -100, 69, 99, image2, 3));
-              break;
-            default:
-              enemys.push(new Enemy(x, -50, 57, 43, image1, 5))
-          }
-        }, 200))
-        //画敌机的定时器
-        timeId.push(setInterval(function () {
-          ctx.clearRect(0, 0, MAX_WIDTH, MAX_HEIGHT)
-          for (let i = 0; i < enemys.length; i++) {
-            if (enemys[i]) {
-              enemys[i].draw(ctx)
-            }
-          }
-        }, 20))
-        //移动敌机的定时器
-        let ref = null
-
-        function toMove() {
-          for (let i = 0; i < enemys.length; i++) {
-            if (enemys[i]) {
-              enemys[i].move()
-            }
-            if (enemys[i].y > MAX_HEIGHT) {
-              enemys.splice(i, 1)
-            }
-            if (rectIsHit(enemys[i], me)) {
-              for (let j = 0; j < timeId.length; j++) {
-                clearInterval(timeId[j])
-              }
-              gameEnd()
-              return false
-
-            }
-          }
-          if (ref) {
-            window.cancelAnimationFrame(ref)
-          }
-
-          ref = window.requestAnimationFrame(toMove)
-        }
-        toMove()
+  //添加敌机的定时器
+  timeId.push(setInterval(function () {
+    let type = Math.floor(Math.random() * 10)
+    let x = Math.floor(Math.random() * MAX_WIDTH)
+    switch (type) {
+      case 0:
+        enemys.push(new Enemy(x, -260, 169, 258, getImage('images/enemy3.png'), 1, 9, 3, ctx));
+        break;
+      case 1:
+      case 2:
+      case 3:
+        enemys.push(new Enemy(x, -100, 69, 99, getImage('images/enemy2.png'), 3, 3, 2, ctx));
+        break;
+      default:
+        enemys.push(new Enemy(x, -50, 57, 43, getImage('images/enemy1.png'), 5, 1, 1, ctx))
+    }
+  }, 500))
+  //画敌机的定时器
+  timeId.push(setInterval(function () {
+    ctx.clearRect(0, 0, MAX_WIDTH, MAX_HEIGHT)
+    for (let i = 0; i < enemys.length; i++) {
+      if (enemys[i]) {
+        enemys[i].draw(ctx)
       }
     }
+  }, 20))
+  //移动敌机的定时器
+  let ref = null
+
+  function toMove() {
+    for (let i = 0; i < enemys.length; i++) {
+      if (enemys[i]) {
+        enemys[i].move()
+      }
+      if (enemys[i].y > MAX_HEIGHT) {
+        enemys.splice(i, 1)
+      }
+      if (rectIsHit(enemys[i], me)) {
+        for (let j = 0; j < timeId.length; j++) {
+          clearInterval(timeId[j])
+        }
+        gameEnd()
+        return false
+
+      }
+    }
+    if (ref) {
+      window.cancelAnimationFrame(ref)
+    }
+
+    ref = window.requestAnimationFrame(toMove)
   }
+  toMove()
 }
 
 //碰撞检测
@@ -248,6 +276,13 @@ function rectIsHit(obj1, obj2) {
   } else {
     return false
   }
+}
+
+//创建Image对象
+function getImage(src) {
+  let image = new Image()
+  image.src = src
+  return image
 }
 
 gameInit()

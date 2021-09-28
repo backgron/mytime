@@ -1,15 +1,22 @@
 let map = []
+let map = {}
 const app = document.querySelector('#app')
 let block = null
 
 function init() {
   //清空地图数据
   clearMap()
-  //绘制地图
+  //画地图
   drawMap()
   //生成block
-  block = createBlock()
-  drawMap()
+  setInterval(function () {
+    if (block === null) {
+      block = new Block()
+      block.init()
+    }
+  }, 100)
+
+
 }
 
 //绘制地图
@@ -65,5 +72,11 @@ function createBlock() {
   block.joinToMap()
   return block
 }
+
+window.addEventListener('keydown', function (e) {
+  if (block) {
+    block.keyMove(e.key)
+  }
+})
 
 init()
